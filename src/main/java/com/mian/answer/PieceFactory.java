@@ -1,4 +1,12 @@
-package com.mian.answer.ChessPieces;
+package com.mian.answer;
+
+import com.mian.answer.ChessPieces.Bishop;
+import com.mian.answer.ChessPieces.King;
+import com.mian.answer.ChessPieces.Knight;
+import com.mian.answer.ChessPieces.Pawn;
+import com.mian.answer.ChessPieces.Piece;
+import com.mian.answer.ChessPieces.Queen;
+import com.mian.answer.ChessPieces.Rook;
 
 public class PieceFactory {
     public Piece getPiece(ChessPieceIdentifier chessPieceIdentifier, ColorIdentifier colorIdentifier) {
@@ -16,7 +24,7 @@ public class PieceFactory {
             case KNIGHT:
                 return new Knight(colorIdentifier);
         }
-        
+
         return null;
     }
 }

@@ -1,4 +1,4 @@
-package com.mian.answer.ChessPieces;
+package com.mian.answer;
 
 public enum ColorIdentifier {
     WHITE,
