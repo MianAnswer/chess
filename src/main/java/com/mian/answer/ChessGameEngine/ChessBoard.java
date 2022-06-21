@@ -10,7 +10,7 @@ public class ChessBoard {
     private Piece[][] board;
 
     public ChessBoard() {
-        this.board = new Piece[8][8];
+        this.board = new Piece[ChessBoardConstants.MAX_RANK][ChessBoardConstants.MAX_FILE];
         setBoard();
     }
 
@@ -46,8 +46,24 @@ public class ChessBoard {
         }
     }
 
-    public Piece[][] getBoard() {
-        return this.board;
+    public boolean isValidPosition(int rank, int file) {
+        return rank >= 0 || file >= 0 || rank < ChessBoardConstants.MAX_RANK || file < ChessBoardConstants.MAX_FILE;
+    }
+
+    public Piece getPiece(int rank, int file) {
+        return isValidPosition(rank, file) ? this.board[rank][file] : null;
+    }
+
+    public void placePiece(Piece piece, int rank, int file) {
+        if (isValidPosition(rank, file)) {
+            this.board[rank][file] = piece;
+        }
+    }
+
+    public void removePiece(int rank, int file) {
+        if (isValidPosition(rank, file)) {
+            this.board[rank][file] = null;
+        }
     }
 
     public String displayBoard() {
