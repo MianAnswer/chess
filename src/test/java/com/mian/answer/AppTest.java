@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import com.mian.answer.ChessGameEngine.ChessBoard;
 import com.mian.answer.ChessPieces.*;
 
 /**
@@ -26,6 +27,8 @@ public class AppTest
     @Test
     public void pawnTest() {
         Piece piece = pieceFactory.getPiece(ChessPieceIdentifier.PAWN, ColorIdentifier.BLACK);
+        System.out.println(piece.getName());
+        assertTrue(piece.getName().equals("Pawn"));
         assertTrue(piece.getPieceIdentifier() == ChessPieceIdentifier.PAWN);
         assertTrue(piece.getColorIdentifier() == ColorIdentifier.BLACK);
     }
@@ -56,5 +59,19 @@ public class AppTest
         Piece piece = pieceFactory.getPiece(ChessPieceIdentifier.ROOK, ColorIdentifier.BLACK);
         assertTrue(piece.getPieceIdentifier() == ChessPieceIdentifier.ROOK);
         assertTrue(piece.getColorIdentifier() == ColorIdentifier.BLACK);
+    }
+
+    @Test
+    public void chessBoardTest() {
+        ChessBoard chessBoard = new ChessBoard();
+        String result = "RKBQKBKR\n" +
+                "PPPPPPPP\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "PPPPPPPP\n" +
+                "RKBQKBKR\n";
+        assertTrue("Failed chessboard", result.equals(chessBoard.displayBoard()));
     }
 }
