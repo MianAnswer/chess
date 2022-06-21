@@ -20,6 +20,7 @@ public class AppTest
     public void bishopTest()
     {
         Piece piece = pieceFactory.getPiece(ChessPieceIdentifier.BISHOP, ColorIdentifier.BLACK);
+        assertTrue(piece.getName().equals("Bishop"));
         assertTrue(piece.getPieceIdentifier() == ChessPieceIdentifier.BISHOP);
         assertTrue(piece.getColorIdentifier() == ColorIdentifier.BLACK);
     }
@@ -27,7 +28,6 @@ public class AppTest
     @Test
     public void pawnTest() {
         Piece piece = pieceFactory.getPiece(ChessPieceIdentifier.PAWN, ColorIdentifier.BLACK);
-        System.out.println(piece.getName());
         assertTrue(piece.getName().equals("Pawn"));
         assertTrue(piece.getPieceIdentifier() == ChessPieceIdentifier.PAWN);
         assertTrue(piece.getColorIdentifier() == ColorIdentifier.BLACK);
@@ -36,6 +36,7 @@ public class AppTest
     @Test
     public void queenTest() {
         Piece piece = pieceFactory.getPiece(ChessPieceIdentifier.QUEEN, ColorIdentifier.BLACK);
+        assertTrue(piece.getName().equals("Queen"));
         assertTrue(piece.getPieceIdentifier() == ChessPieceIdentifier.QUEEN);
         assertTrue(piece.getColorIdentifier() == ColorIdentifier.BLACK);
     }
@@ -43,6 +44,7 @@ public class AppTest
     @Test
     public void kingTest() {
         Piece piece = pieceFactory.getPiece(ChessPieceIdentifier.KING, ColorIdentifier.BLACK);
+        assertTrue(piece.getName().equals("King"));
         assertTrue(piece.getPieceIdentifier() == ChessPieceIdentifier.KING);
         assertTrue(piece.getColorIdentifier() == ColorIdentifier.BLACK);
     }
@@ -50,6 +52,7 @@ public class AppTest
     @Test
     public void knightTest() {
         Piece piece = pieceFactory.getPiece(ChessPieceIdentifier.KNIGHT, ColorIdentifier.BLACK);
+        assertTrue(piece.getName().equals("Knight"));
         assertTrue(piece.getPieceIdentifier() == ChessPieceIdentifier.KNIGHT);
         assertTrue(piece.getColorIdentifier() == ColorIdentifier.BLACK);
     }
@@ -57,6 +60,7 @@ public class AppTest
     @Test
     public void rookTest() {
         Piece piece = pieceFactory.getPiece(ChessPieceIdentifier.ROOK, ColorIdentifier.BLACK);
+        assertTrue(piece.getName().equals("Rook"));
         assertTrue(piece.getPieceIdentifier() == ChessPieceIdentifier.ROOK);
         assertTrue(piece.getColorIdentifier() == ColorIdentifier.BLACK);
     }
