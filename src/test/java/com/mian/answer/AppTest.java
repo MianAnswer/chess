@@ -70,10 +70,10 @@ public class AppTest
         ChessBoard chessBoard = new ChessBoard();
         String result = "RKBQKBKR\n" +
                 "PPPPPPPP\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n" +
+                "--------\n" +
+                "--------\n" +
+                "--------\n" +
+                "--------\n" +
                 "PPPPPPPP\n" +
                 "RKBQKBKR\n";
         assertTrue("Failed chessboard", result.equals(chessBoard.displayBoard()));
