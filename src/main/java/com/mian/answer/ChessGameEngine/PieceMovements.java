@@ -38,6 +38,53 @@ public class PieceMovements {
         return toPosition.getRank() == fromPosition.getRank();
     }
 
+    private boolean isHorizontalPathToRightClear(ChessBoard chessBoard, Position fromPosition, Position toPosition) {
+        Piece piece = null;
+        for (int rank = fromPosition.getRank() + 1; rank < toPosition.getRank(); ++rank) {
+            piece = chessBoard.getPiece(new Position(rank, fromPosition.getFile()));
+        }
+
+        return piece == null;
+    }
+
+    private boolean isHorizontalPathToLeftClear(ChessBoard chessBoard, Position fromPosition, Position toPosition) {
+        Piece piece = null;
+        for (int rank = fromPosition.getRank() - 1; rank > toPosition.getRank(); --rank) {
+            piece = chessBoard.getPiece(new Position(rank, fromPosition.getFile()));
+        }
+
+        return piece == null;
+    }
+
+    private boolean isHorizontalPathClear(ChessBoard chessBoard, Position fromPosition, Position toPosition) {
+        return (fromPosition.getRank() - toPosition.getRank() > 0)
+                ? isHorizontalPathToRightClear(chessBoard, fromPosition, toPosition)
+                : isHorizontalPathToLeftClear(chessBoard, fromPosition, toPosition);
+    }
+
+    private boolean isVerticalPathToAboveClear(ChessBoard chessBoard, Position fromPosition, Position toPosition) {
+        Piece piece = null;
+        for (int file = fromPosition.getFile() - 1; file > toPosition.getFile(); --file) {
+            piece = chessBoard.getPiece(new Position(fromPosition.getRank(), file));
+        }
+
+        return piece == null;
+    }
+
+    private boolean isVerticalPathToBelowClear(ChessBoard chessBoard, Position fromPosition, Position toPosition) {
+        Piece piece = null;
+        for (int file = fromPosition.getFile() + 1; file < toPosition.getFile(); ++file) {
+            piece = chessBoard.getPiece(new Position(fromPosition.getRank(), file));
+        }
+
+        return piece == null;
+    }
+
+    private boolean isVerticalPathClear(ChessBoard chessBoard, Position fromPosition, Position toPosition) {
+        return (fromPosition.getFile() - toPosition.getFile() > 0)
+                ? isVerticalPathToAboveClear(chessBoard, fromPosition, toPosition)
+                : isVerticalPathToBelowClear(chessBoard, fromPosition, toPosition);
+    }
     /**
      * pieces in fromPosition and toPosition must not be same color
      * king must not be already in check
@@ -89,5 +136,32 @@ public class PieceMovements {
         }
 
         chessBoard.movePiece(fromPosition, toPosition);
+    }
+
+    public boolean rookMovement(ChessBoard chessBoard, Position fromPosition, Position toPosition) {
+        if (!isValidMovement(chessBoard, fromPosition, toPosition)) {
+            return false;
+        }
+
+        int fromFile = fromPosition.getFile();
+        int fromRank = fromPosition.getRank();
+        int toFile = toPosition.getFile();
+        int toRank = toPosition.getRank();
+        // horizontal check
+        if (fromFile == toFile && fromRank != toRank) {
+            if (isHorizontalPathClear(chessBoard, fromPosition, toPosition)) {
+                chessBoard.movePiece(fromPosition, toPosition);
+                return true;
+            }
+        }
+        // vertical check
+        else if (fromFile != toFile && fromRank == toRank) {
+            if (isVerticalPathClear(chessBoard, fromPosition, toPosition)) {
+                chessBoard.movePiece(fromPosition, toPosition);
+                return true;
+            }
+        }
+
+        return false;
     }
 }
