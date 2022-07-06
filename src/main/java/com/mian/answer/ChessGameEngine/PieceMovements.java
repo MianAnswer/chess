@@ -164,4 +164,36 @@ public class PieceMovements {
 
         return false;
     }
+
+    public boolean bishopMovement(ChessBoard chessBoard, Position fromPosition, Position toPosition) {
+        if (!isValidMovement(chessBoard, fromPosition, toPosition)) {
+            return false;
+        }
+
+        int fromFile = fromPosition.getFile();
+        int fromRank = fromPosition.getRank();
+        int toFile = toPosition.getFile();
+        int toRank = toPosition.getRank();
+        int fileDifference = toFile - fromFile;
+        int rankDifference = toRank - fromRank;
+
+        if (Math.abs(fileDifference) != Math.abs(rankDifference)) {
+            return false;
+        }
+
+        int offset = Math.abs(fileDifference);
+
+        for (int pos = 1; pos < offset; ++pos) {
+            int file = (fileDifference < 0) ? fromFile - pos : fromFile + pos;
+            int rank = (rankDifference < 0) ? fromRank - pos : fromRank + pos;
+
+            if (chessBoard.getPiece(new Position(rank, file)) != (Piece) null) {
+                return false;
+            }
+        }
+
+        chessBoard.movePiece(fromPosition, toPosition);
+
+        return true;
+    }
 }
