@@ -52,7 +52,5 @@ public class BishopMovementTest {
 
         test = pieceMovements.bishopMovement(chessBoard, new Position(4, 2), new Position(3, 2));
         assertFalse("Failed BISHOP movement", test);
-
-        System.out.println(chessBoard.displayBoard());
     }
 }
