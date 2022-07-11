@@ -196,4 +196,68 @@ public class PieceMovements {
 
         return true;
     }
+
+    public boolean queenMovement(ChessBoard chessBoard, Position fromPosition, Position toPosition) {
+        if (!isValidMovement(chessBoard, fromPosition, toPosition)) {
+            return false;
+        }
+
+        int fromFile = fromPosition.getFile();
+        int fromRank = fromPosition.getRank();
+        int toFile = toPosition.getFile();
+        int toRank = toPosition.getRank();
+        // horizontal check
+        if (fromFile == toFile && fromRank != toRank) {
+            if (isHorizontalPathClear(chessBoard, fromPosition, toPosition)) {
+                chessBoard.movePiece(fromPosition, toPosition);
+                return true;
+            }
+        }
+        // vertical check
+        else if (fromFile != toFile && fromRank == toRank) {
+            if (isVerticalPathClear(chessBoard, fromPosition, toPosition)) {
+                chessBoard.movePiece(fromPosition, toPosition);
+                return true;
+            }
+        }
+
+        int fileDifference = toFile - fromFile;
+        int rankDifference = toRank - fromRank;
+        // diagonal check
+        if (Math.abs(fileDifference) != Math.abs(rankDifference)) {
+            return false;
+        }
+
+        int offset = Math.abs(fileDifference);
+
+        for (int pos = 1; pos < offset; ++pos) {
+            int file = (fileDifference < 0) ? fromFile - pos : fromFile + pos;
+            int rank = (rankDifference < 0) ? fromRank - pos : fromRank + pos;
+
+            if (chessBoard.getPiece(new Position(rank, file)) != (Piece) null) {
+                return false;
+            }
+        }
+
+        chessBoard.movePiece(fromPosition, toPosition);
+
+        return true;
+    }
+
+    public boolean kingMovement(ChessBoard chessBoard, Position fromPosition, Position toPosition) {
+        if (!isValidMovement(chessBoard, fromPosition, toPosition)) {
+            return false;
+        }
+
+        int fileDifference = toPosition.getFile() - fromPosition.getFile();
+        int rankDifference = toPosition.getRank() - fromPosition.getRank();
+
+        if (Math.abs(fileDifference) > 1 || Math.abs(rankDifference) > 1) {
+            return false;
+        }
+
+        chessBoard.movePiece(fromPosition, toPosition);
+
+        return true;
+    }
 }
