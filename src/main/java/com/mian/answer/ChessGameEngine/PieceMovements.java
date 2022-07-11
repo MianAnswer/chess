@@ -1,5 +1,6 @@
 package com.mian.answer.ChessGameEngine;
 
+import com.mian.answer.ColorIdentifier;
 import com.mian.answer.ChessPieces.Piece;
 
 public class PieceMovements {
@@ -32,10 +33,6 @@ public class PieceMovements {
 
     private boolean areColorsSame(Piece fromPiece, Piece toPiece) {
         return fromPiece.getColorIdentifier() == toPiece.getColorIdentifier();
-    }
-
-    private boolean areInSameRank(Position fromPosition, Position toPosition) {
-        return toPosition.getRank() == fromPosition.getRank();
     }
 
     private boolean isHorizontalPathToRightClear(ChessBoard chessBoard, Position fromPosition, Position toPosition) {
@@ -85,6 +82,7 @@ public class PieceMovements {
                 ? isVerticalPathToAboveClear(chessBoard, fromPosition, toPosition)
                 : isVerticalPathToBelowClear(chessBoard, fromPosition, toPosition);
     }
+
     /**
      * pieces in fromPosition and toPosition must not be same color
      * king must not be already in check
@@ -93,34 +91,45 @@ public class PieceMovements {
      * @param fromPosition
      * @param toPosition
      */
-    public void pawnMovement(ChessBoard chessBoard, Position fromPosition, Position toPosition) {
+    public boolean pawnMovement(ChessBoard chessBoard, Position fromPosition, Position toPosition) {
         if (!isValidMovement(chessBoard, fromPosition, toPosition)) {
-            return;
+            return false;
         }
 
-        // can move forward in file
-        if (areInSameRank(fromPosition, toPosition)) {
-            // 1 step forward if fromPosition is clear
-            if (toPosition.getFile() + 1 == fromPosition.getFile()
-                    && chessBoard.getPiece(toPosition) == null) {
-                chessBoard.movePiece(fromPosition, toPosition);
-            }
-            // 2 step forward if path is clear
-            else if (toPosition.getFile() + 2 == fromPosition.getFile()) {
-                if ((fromPosition.getFile() == 1 || fromPosition.getFile() == 6)
-                        && chessBoard.getPiece(new Position(toPosition.getRank(), toPosition.getFile() + 1)) == null
-                        && chessBoard.getPiece(toPosition) == null) {
-                    chessBoard.movePiece(fromPosition, toPosition);
-                }
-            }
+        boolean validMove = false;
+        int fromFile = fromPosition.getFile();
+        int fromRank = fromPosition.getRank();
+        int toFile = toPosition.getFile();
+        int toRank = toPosition.getRank();
+
+        int fileDifference = toFile - fromFile;
+        int rankDifference = Math.abs(toRank - fromRank);
+
+        ColorIdentifier colorIdentifier = chessBoard.getPiece(fromPosition).getColorIdentifier();
+        boolean firstMove = (colorIdentifier == ColorIdentifier.WHITE) ? fromFile == 6 : fromFile == 1;
+        boolean isTargetEmpty = chessBoard.getPiece(toPosition) == null;
+
+        // Forward
+        if (rankDifference == 0) {
+            boolean isFileDifferenceValid = (colorIdentifier == ColorIdentifier.WHITE)
+                    ? (fileDifference == -2 && firstMove) || fileDifference == -1
+                    : (fileDifference == 2 && firstMove) || fileDifference == 1;
+            validMove = isFileDifferenceValid && isVerticalPathClear(chessBoard, fromPosition, toPosition)
+                    && isTargetEmpty;
         }
-        // or diagonally if toPosition has a piece
-        else if (toPosition.getRank() + 1 == fromPosition.getRank()
-                || toPosition.getRank() - 1 == fromPosition.getRank()) {
-            if (chessBoard.getPiece(toPosition) != null) {
-                chessBoard.movePiece(fromPosition, toPosition);
-            }
+        // Diagonally
+        else if (rankDifference == 1) {
+            boolean isFileDifferenceValid = (colorIdentifier == ColorIdentifier.WHITE)
+                    ? fileDifference == -1
+                    : fileDifference == 1;
+            validMove = isFileDifferenceValid && !isTargetEmpty;
         }
+
+        if (validMove) {
+            chessBoard.movePiece(fromPosition, toPosition);
+        }
+
+        return validMove;
     }
 
     public void knightMovement(ChessBoard chessBoard, Position fromPosition, Position toPosition) {
