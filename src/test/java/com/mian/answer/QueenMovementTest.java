@@ -61,7 +61,6 @@ public class QueenMovementTest {
             Position position = positions[i];
 
             boolean test = pieceMovements.queenMovement(chessBoard, prevPosition, position);
-            System.out.println(chessBoard.displayBoard());
             assertTrue("Queen Test failed - moving from " + prevPosition.toString() + " to " + position.toString(),
                     test == results[i]);
             if (test == true) {

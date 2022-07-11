@@ -52,7 +52,6 @@ public class KingMovementTest {
             Position position = positions[i];
 
             boolean test = pieceMovements.kingMovement(chessBoard, prevPosition, position);
-            System.out.println(chessBoard.displayBoard());
             assertTrue("King Test failed - moving from " + prevPosition.toString() + " to " + position.toString(),
                     test == results[i]);
             if (test == true) {
